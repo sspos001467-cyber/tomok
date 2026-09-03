@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>2026 토목체전 · 참가자 안내</title>
+<meta name="description" content="2026 KSCE 토목체전 안내 — 2026년 9월 12일(토) 서울대학교 종합운동장. 부스 배치도에서 부스를 누르면 게임 룰이 나옵니다.">
+<meta name="theme-color" content="#132455" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1020" media="(prefers-color-scheme: dark)">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="2026 토목체전 · 참가자 안내">
+<meta property="og:description" content="2026. 09. 12 (토) 서울대학교 종합운동장 — 부스를 누르면 게임 룰이 나와요.">
+<meta property="og:locale" content="ko_KR">
+<!-- 배포 후 주석을 풀면 카카오톡 공유 시 썸네일이 뜹니다.
+<meta property="og:url" content="https://sspos001467-cyber.github.io/tomok/">
+<meta property="og:image" content="https://sspos001467-cyber.github.io/tomok/images/panel-1.jpg">
+-->
+
+<!--
+  ===========================================================================
+  2026 KSCE 토목체전 참가자 안내
+  주관: 대한토목학회 대학생위원회 대외협력본부
+
+  화면 구성 (3면)
+    1  부스 배치도   images/panel-1.jpg   ← 부스1~6을 누르면 룰 카드가 열림
+    2  타임테이블     images/panel-2.jpg
+    3  경품          images/panel-4.jpg
+
+  이미지를 바꾸려면 images/ 안의 파일을 같은 이름으로 덮어쓰면 됩니다.
+  면을 추가하거나 순서를 바꾸려면 아래 <section class="swiper-slide"> 블록을
+  복사·이동하고, 하단 .rail 의 버튼 개수도 같이 맞춰 주세요.
+
+  부스 ↔ 게임 연결과 터치 영역 위치는 맨 아래 BOOTHS 배열에 있습니다.
+  배치도 디자인이 바뀌면 그 배열의 top/bottom 숫자만 고치면 됩니다.
+
+  소스: MIT License / Swiper 11: MIT / 이미지 저작권: 대한토목학회 대학생위원회
+  ===========================================================================
+-->
+
+<link rel="stylesheet" href="assets/swiper.min.css">
+<style>
+:root{
+  --ground:#e9edf4;
+  --ground-2:#f6f8fb;
+  --card:#ffffff;
+  --line:#d8e0ed;
+  --head:#132455;
+  --ink-2:#4f5f80;
+  --ink-3:#8593ae;
+  --blue-deep:#1d3a7d;
+  --blue:#2f6bc0;
+  --red:#c8202f;
+  --scrim:rgba(246,248,251,.9);
+  --shadow:0 2px 8px rgba(19,36,85,.10), 0 18px 46px rgba(19,36,85,.14);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#080c17; --ground-2:#0d1322; --card:#121a2e; --line:#26314f;
+    --head:#e8eefb; --ink-2:#a2b0cf; --ink-3:#6f7d9e;
+    --blue-deep:#8fb8f0; --blue:#6fa2e8; --red:#f0616f;
+    --scrim:rgba(10,15,28,.9);
+    --shadow:0 2px 8px rgba(0,0,0,.5), 0 18px 46px rgba(0,0,0,.6);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#080c17; --ground-2:#0d1322; --card:#121a2e; --line:#26314f;
+  --head:#e8eefb; --ink-2:#a2b0cf; --ink-3:#6f7d9e;
+  --blue-deep:#8fb8f0; --blue:#6fa2e8; --red:#f0616f;
+  --scrim:rgba(10,15,28,.9);
+  --shadow:0 2px 8px rgba(0,0,0,.5), 0 18px 46px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0; background:var(--ground); color:var(--head);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+  -webkit-text-size-adjust:100%; overflow:hidden; overscroll-behavior:none;
+}
+body::before{
+  content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(60% 40% at 3% -8%, rgba(200,32,47,.12) 0%, transparent 60%),
+    radial-gradient(64% 44% at 103% 106%, rgba(47,107,192,.14) 0%, transparent 58%),
+    linear-gradient(162deg, var(--ground-2) 0%, var(--ground) 58%, var(--ground-2) 100%);
+}
+
+/* ---------------- deck ---------------- */
+.deck{position:relative; z-index:1; width:100%; height:100dvh;}
+.deck > .swiper-wrapper > .swiper-slide{
+  height:100dvh; overflow-y:auto; overflow-x:hidden;
+  -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
+  display:flex; flex-direction:column; align-items:center;
+  padding:calc(env(safe-area-inset-top,0px) + 60px) 14px calc(env(safe-area-inset-bottom,0px) + 84px);
+  scrollbar-width:thin; scrollbar-color:var(--line) transparent;
+}
+.deck > .swiper-wrapper > .swiper-slide::-webkit-scrollbar{width:6px;}
+.deck > .swiper-wrapper > .swiper-slide::-webkit-scrollbar-thumb{background:var(--line); border-radius:99px;}
+
+.sheet{
+  position:relative; flex:none; width:100%; max-width:520px;
+  border-radius:14px; overflow:hidden; background:var(--card);
+  box-shadow:var(--shadow); line-height:0;
+}
+.sheet img{display:block; width:100%; height:auto;}
+
+@media (min-width:900px){
+  .deck > .swiper-wrapper > .swiper-slide{
+    justify-content:center;
+    padding-top:calc(env(safe-area-inset-top,0px) + 76px); padding-bottom:100px;
+  }
+  .sheet{width:auto; max-width:none;}
+  .sheet img{width:auto; height:auto; max-height:calc(100dvh - 190px); max-width:92vw;}
+}
+
+/* ---------------- 배치도의 부스 터치 영역 ---------------- */
+.booth{
+  position:absolute; appearance:none; border:0; padding:0; margin:0;
+  background:transparent; border-radius:50%; cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+/* 원 밖으로 살짝 넓힌 실제 터치 범위 (눈에는 안 보임) */
+.booth::before{content:""; position:absolute; inset:-4% -14%;}
+/* 누를 수 있다는 표시 — 원 둘레를 감싸는 흰 링 */
+.booth::after{
+  content:""; position:absolute; inset:-6%; border-radius:50%;
+  box-shadow:0 0 0 3px rgba(255,255,255,.85), 0 0 16px 2px rgba(255,255,255,.45);
+}
+@media (prefers-reduced-motion: no-preference){
+  .booth::after{animation:ringPulse 2.8s ease-in-out infinite;}
+  @keyframes ringPulse{0%,66%,100%{opacity:.3} 82%{opacity:1}}
+}
+@media (prefers-reduced-motion: reduce){ .booth::after{opacity:.55;} }
+.booth:hover::after,
+.booth:active::after{animation:none; opacity:1;}
+.booth:active{transform:scale(.94);}
+.booth:focus-visible{outline:3px solid #fff; outline-offset:4px;}
+
+/* ---------------- chrome ---------------- */
+.topbar{
+  position:fixed; top:0; left:0; right:0; z-index:20;
+  height:calc(env(safe-area-inset-top,0px) + 50px);
+  padding:env(safe-area-inset-top,0px) 16px 0;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  background:var(--scrim); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.mark{display:flex; align-items:baseline; gap:7px; min-width:0;}
+.mark b{font-size:14px; font-weight:800; letter-spacing:.02em; color:var(--red);}
+.mark span{font-size:14px; font-weight:800; letter-spacing:-.02em; color:var(--head); white-space:nowrap;}
+.bar-right{display:flex; align-items:center; gap:10px;}
+.counter{font-size:13px; font-weight:700; color:var(--ink-3); font-variant-numeric:tabular-nums;}
+.counter em{font-style:normal; color:var(--head);}
+.iconbtn{
+  appearance:none; width:32px; height:32px; border-radius:9px; cursor:pointer; padding:0;
+  border:1px solid var(--line); background:var(--card); color:var(--ink-2);
+  display:flex; align-items:center; justify-content:center;
+}
+.iconbtn:hover{color:var(--head);}
+.iconbtn:focus-visible{outline:2px solid var(--blue); outline-offset:2px;}
+.iconbtn svg{width:16px; height:16px; fill:currentColor;}
+.iconbtn .moon{display:none;}
+:root[data-theme="dark"] .iconbtn .moon{display:block;}
+:root[data-theme="dark"] .iconbtn .sun{display:none;}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .iconbtn .moon{display:block;}
+  :root:not([data-theme="light"]) .iconbtn .sun{display:none;}
+}
+
+.rail{
+  position:fixed; left:0; right:0; bottom:0; z-index:20;
+  padding:9px 12px calc(env(safe-area-inset-bottom,0px) + 11px);
+  background:var(--scrim); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border-top:1px solid var(--line); display:flex; gap:6px;
+}
+.lane{
+  flex:1 1 0; min-width:0; appearance:none; border:0; cursor:pointer; font-family:inherit;
+  background:transparent; padding:5px 2px 4px; border-radius:9px;
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+}
+.lane .bar{width:100%; height:4px; border-radius:99px; background:var(--line); transition:background .28s, transform .28s;}
+.lane .lbl{font-size:11.5px; font-weight:700; color:var(--ink-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; transition:color .28s;}
+.lane[aria-current="true"] .bar{background:linear-gradient(90deg,var(--blue-deep),var(--red)); transform:scaleY(1.6);}
+.lane[aria-current="true"] .lbl{color:var(--head);}
+.lane:focus-visible{outline:2px solid var(--blue); outline-offset:2px;}
+@media (min-width:900px){
+  .rail{justify-content:center; gap:10px; padding:10px 20px 13px;}
+  .lane{flex:0 1 180px;}
+  .lane .lbl{font-size:12px;}
+}
+
+.nav{
+  position:fixed; top:50%; z-index:20; transform:translateY(-50%);
+  width:44px; height:44px; border-radius:50%; padding:0;
+  border:1px solid var(--line); background:var(--card); color:var(--head);
+  cursor:pointer; display:none; align-items:center; justify-content:center; box-shadow:var(--shadow);
+}
+.nav svg{width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;}
+.nav:focus-visible{outline:2px solid var(--blue); outline-offset:3px;}
+.nav.is-off{opacity:.28; pointer-events:none;}
+.nav.prev{left:18px;} .nav.next{right:18px;}
+@media (min-width:900px){ .nav{display:flex;} }
+
+/* ---------------- 룰 뷰어 ---------------- */
+.viewer{
+  position:fixed; inset:0; z-index:60; display:none;
+  background:rgba(9,12,20,.96);
+  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+}
+.viewer.open{display:block;}
+.viewer-top{
+  position:absolute; top:0; left:0; right:0; z-index:2;
+  height:calc(env(safe-area-inset-top,0px) + 54px);
+  padding:env(safe-area-inset-top,0px) 14px 0;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  background:linear-gradient(180deg, rgba(9,12,20,.92) 40%, transparent);
+}
+.viewer-title{font-size:15px; font-weight:800; color:#fff; letter-spacing:-.02em;}
+.viewer-title small{display:block; font-size:11px; font-weight:600; color:rgba(255,255,255,.55); margin-top:2px; letter-spacing:.04em;}
+.closebtn{
+  appearance:none; width:38px; height:38px; border-radius:50%; padding:0; cursor:pointer; flex:none;
+  border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.10); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+}
+.closebtn:hover{background:rgba(255,255,255,.2);}
+.closebtn:focus-visible{outline:2px solid #fff; outline-offset:2px;}
+.closebtn svg{width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round;}
+
+.rules{width:100%; height:100dvh;}
+.rules .swiper-slide{display:flex; align-items:center; justify-content:center; padding:calc(env(safe-area-inset-top,0px) + 60px) 12px calc(env(safe-area-inset-bottom,0px) + 66px);}
+.rules .swiper-zoom-container{width:100%; height:100%; display:flex; align-items:center; justify-content:center;}
+.rules img{max-width:100%; max-height:100%; width:auto; height:auto; border-radius:12px; display:block;}
+
+.viewer-bottom{
+  position:absolute; left:0; right:0; bottom:0; z-index:2;
+  padding:12px 14px calc(env(safe-area-inset-bottom,0px) + 14px);
+  display:flex; align-items:center; justify-content:center; gap:9px;
+  background:linear-gradient(0deg, rgba(9,12,20,.92) 40%, transparent);
+}
+.dot{
+  appearance:none; border:0; padding:0; cursor:pointer;
+  width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.3);
+  transition:background .2s, width .2s;
+}
+.dot[aria-current="true"]{background:#fff; width:22px; border-radius:99px;}
+.dot:focus-visible{outline:2px solid #fff; outline-offset:3px;}
+
+.vnav{
+  position:absolute; top:50%; z-index:2; transform:translateY(-50%);
+  width:42px; height:42px; border-radius:50%; padding:0; cursor:pointer;
+  border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.10); color:#fff;
+  display:none; align-items:center; justify-content:center;
+}
+.vnav svg{width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;}
+.vnav:hover{background:rgba(255,255,255,.2);}
+.vnav.is-off{opacity:.25; pointer-events:none;}
+.vnav.prev{left:16px;} .vnav.next{right:16px;}
+@media (min-width:900px){ .vnav{display:flex;} }
+
+.zoomhint{
+  position:absolute; left:50%; bottom:calc(env(safe-area-inset-bottom,0px) + 52px);
+  transform:translateX(-50%); z-index:2;
+  font-size:11.5px; font-weight:600; color:rgba(255,255,255,.5);
+  white-space:nowrap; pointer-events:none;
+}
+@media (min-width:900px){ .zoomhint{display:none;} }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="mark"><b>2026</b><span>토목체전</span></div>
+  <div class="bar-right">
+    <div class="counter"><em id="cur">1</em> / 3</div>
+    <button class="iconbtn" id="theme" type="button" aria-label="밝은 화면 / 어두운 화면 전환">
+      <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-13a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1Zm0 14a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1ZM4 11h1a1 1 0 1 1 0 2H4a1 1 0 1 1 0-2Zm15 0h1a1 1 0 1 1 0 2h-1a1 1 0 1 1 0-2ZM6.3 5a1 1 0 0 1 1.4 1.4A1 1 0 0 1 6.3 5Zm11 11a1 1 0 0 1 1.4 1.4A1 1 0 0 1 17.3 16ZM18.7 5a1 1 0 0 1 0 1.4A1 1 0 0 1 17.3 5 1 1 0 0 1 18.7 5ZM6.3 17.4a1 1 0 0 1 1.4-1.4 1 1 0 0 1-1.4 1.4Z"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.7 14.5A8.5 8.5 0 0 1 9.5 3.3a1 1 0 0 0-1.3-1.2A10.5 10.5 0 1 0 21.9 15.8a1 1 0 0 0-1.2-1.3Z"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="deck swiper" id="deck">
+  <div class="swiper-wrapper">
+
+    <!-- 1면 · 부스 배치도 (부스1~6을 누르면 룰이 열립니다) -->
+    <section class="swiper-slide" aria-label="부스 배치도">
+      <div class="sheet" id="mapsheet">
+        <img src="images/panel-1.jpg" width="1080" height="1920"
+             alt="2026 토목체전 운동장 부스 배치도. 왼쪽에 부스 1번부터 6번, 오른쪽에 협찬과 학생회 부스">
+        <!-- 터치 영역은 스크립트가 BOOTHS 배열대로 여기에 만듭니다 -->
+      </div>
+    </section>
+
+    <!-- 2면 · 타임테이블 -->
+    <section class="swiper-slide" aria-label="타임테이블">
+      <div class="sheet">
+        <img src="images/panel-2.jpg" alt="토목체전 타임테이블. 11시 부스 운영부터 18시 뒤풀이 이동까지"
+             loading="lazy" decoding="async">
+      </div>
+    </section>
+
+    <!-- 3면 · 경품 -->
+    <section class="swiper-slide" aria-label="경품 안내">
+      <div class="sheet">
+        <img src="images/panel-4.jpg" alt="추첨권을 노려라. 스탬프를 모아 특별 키트 받기, 부스 참여로 추첨권 얻기"
+             loading="lazy" decoding="async">
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<button class="nav prev" id="prev" type="button" aria-label="이전 면"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+<button class="nav next" id="next" type="button" aria-label="다음 면"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+
+<nav class="rail" aria-label="면 이동">
+  <button class="lane" type="button"><span class="bar"></span><span class="lbl">부스 배치도</span></button>
+  <button class="lane" type="button"><span class="bar"></span><span class="lbl">타임테이블</span></button>
+  <button class="lane" type="button"><span class="bar"></span><span class="lbl">경품</span></button>
+</nav>
+
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="게임 룰">
+  <div class="viewer-top">
+    <div class="viewer-title" id="vtitle"></div>
+    <button class="closebtn" id="vclose" type="button" aria-label="닫기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+
+  <div class="rules swiper" id="rules">
+    <div class="swiper-wrapper" id="rulewrap"></div>
+  </div>
+
+  <button class="vnav prev" id="vprev" type="button" aria-label="이전 부스"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+  <button class="vnav next" id="vnext" type="button" aria-label="다음 부스"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+
+  <p class="zoomhint">두 번 톡 치면 확대돼요</p>
+  <div class="viewer-bottom" id="vdots"></div>
+</div>
+
+<script src="assets/swiper.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* =====================================================================
+     부스 ↔ 게임 연결
+
+     top / bottom 은 배치도 이미지 높이에 대한 % 로, 각 부스 원의 위아래
+     위치입니다. 배치도를 새로 만들어 원 위치가 달라지면 이 숫자만 고치면
+     됩니다. left / right 는 왼쪽 부스 원의 가로 위치(%)입니다.
+
+     오른쪽 협찬·학생회 원을 나중에 누르게 하려면 left:87.8, right:98.7 로
+     같은 y 값을 쓰면 됩니다.
+     ===================================================================== */
+  var BOOTH_LEFT = 1.1, BOOTH_RIGHT = 12.0;
+
+  var BOOTHS = [
+    { no: 1, name: '구루마 컬링',        img: 'images/rule-1.jpg', top: 48.2, bottom: 54.4 },
+    { no: 2, name: '구속 측정소',        img: 'images/rule-3.jpg', top: 54.4, bottom: 60.6 },
+    { no: 3, name: '탄성한계 측정실험',  img: 'images/rule-4.jpg', top: 60.6, bottom: 66.8 },
+    { no: 4, name: '홀인원 토공사',      img: 'images/rule-5.jpg', top: 68.5, bottom: 74.6 },
+    { no: 5, name: '토목철인 3종',       img: 'images/rule-2.jpg', top: 74.7, bottom: 80.8 },
+    { no: 6, name: '인간 항타기',        img: 'images/rule-6.jpg', top: 80.9, bottom: 87.0 }
+  ];
+
+  /* ---------- 밝은/어두운 화면 ---------- */
+  var THEME_KEY = 'tomok2026-theme';
+  var root = document.documentElement;
+  try {
+    var saved = localStorage.getItem(THEME_KEY);
+    if (saved === 'dark' || saved === 'light') root.setAttribute('data-theme', saved);
+  } catch (e) {}
+  document.getElementById('theme').addEventListener('click', function () {
+    var dark = root.getAttribute('data-theme') === 'dark' ||
+      (!root.hasAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var next = dark ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+  });
+
+  /* ---------- 배치도 위의 부스 버튼 ---------- */
+  var mapsheet = document.getElementById('mapsheet');
+  BOOTHS.forEach(function (b, i) {
+    var el = document.createElement('button');
+    el.type = 'button';
+    el.className = 'booth';
+    el.style.left = BOOTH_LEFT + '%';
+    el.style.width = (BOOTH_RIGHT - BOOTH_LEFT) + '%';
+    el.style.top = b.top + '%';
+    el.style.height = (b.bottom - b.top) + '%';
+    el.setAttribute('aria-label', '부스 ' + b.no + ' ' + b.name + ' 룰 보기');
+    el.addEventListener('click', function () { openViewer(i); });
+    mapsheet.appendChild(el);
+  });
+
+  /* ---------- 룰 카드 ---------- */
+  var wrap = document.getElementById('rulewrap');
+  var dotwrap = document.getElementById('vdots');
+  BOOTHS.forEach(function (b, i) {
+    var s = document.createElement('div');
+    s.className = 'swiper-slide';
+    s.innerHTML =
+      '<div class="swiper-zoom-container">' +
+      '<img data-src="' + b.img + '" alt="부스 ' + b.no + ' ' + b.name + ' 게임 룰 안내" decoding="async">' +
+      '</div>';
+    wrap.appendChild(s);
+
+    var d = document.createElement('button');
+    d.type = 'button';
+    d.className = 'dot';
+    d.setAttribute('aria-label', '부스 ' + b.no + ' ' + b.name);
+    d.addEventListener('click', function () { rules.slideTo(i); });
+    dotwrap.appendChild(d);
+  });
+  var dots = [].slice.call(dotwrap.children);
+
+  function loadRule(i) {
+    for (var n = i - 1; n <= i + 1; n++) {
+      if (n < 0 || n >= BOOTHS.length) continue;
+      var img = wrap.children[n].querySelector('img');
+      if (img && !img.src) img.src = img.dataset.src;
+    }
+  }
+
+  /* ---------- 면 넘기기 ---------- */
+  var lanes = [].slice.call(document.querySelectorAll('.lane'));
+  var cur = document.getElementById('cur');
+  var prev = document.getElementById('prev');
+  var next = document.getElementById('next');
+
+  function paintDeck(i) {
+    cur.textContent = i + 1;
+    lanes.forEach(function (l, n) { l.setAttribute('aria-current', n === i ? 'true' : 'false'); });
+    prev.classList.toggle('is-off', i === 0);
+    next.classList.toggle('is-off', i === lanes.length - 1);
+  }
+
+  var start = 0;
+  var m = /^#p([1-9])$/.exec(location.hash);
+  if (m && +m[1] <= lanes.length) start = +m[1] - 1;
+
+  var deck = new Swiper('#deck', {
+    initialSlide: start,
+    speed: 440,
+    threshold: 10,
+    touchAngle: 32,
+    touchReleaseOnEdges: true,
+    resistanceRatio: 0.55,
+    keyboard: { enabled: true, onlyInViewport: false },
+    a11y: { enabled: true, containerMessage: '토목체전 안내 3면', slideRole: 'group' },
+    on: {
+      init: function () { paintDeck(this.activeIndex); },
+      slideChange: function () { paintDeck(this.activeIndex); }
+    }
+  });
+  deck.on('slideChangeTransitionEnd', function () {
+    var el = deck.slides[deck.previousIndex];
+    if (el) el.scrollTop = 0;
+  });
+
+  lanes.forEach(function (l, i) { l.addEventListener('click', function () { deck.slideTo(i); }); });
+  prev.addEventListener('click', function () { deck.slidePrev(); });
+  next.addEventListener('click', function () { deck.slideNext(); });
+
+  /* ---------- 룰 뷰어 ---------- */
+  var viewer = document.getElementById('viewer');
+  var vtitle = document.getElementById('vtitle');
+  var vprev = document.getElementById('vprev');
+  var vnext = document.getElementById('vnext');
+  var lastFocus = null;
+  var pushed = false;
+
+  function paintViewer(i) {
+    var b = BOOTHS[i];
+    vtitle.innerHTML = b.name + '<small>부스 ' + b.no + ' · 게임 룰</small>';
+    dots.forEach(function (d, n) { d.setAttribute('aria-current', n === i ? 'true' : 'false'); });
+    vprev.classList.toggle('is-off', i === 0);
+    vnext.classList.toggle('is-off', i === BOOTHS.length - 1);
+    loadRule(i);
+  }
+
+  var rules = new Swiper('#rules', {
+    speed: 380,
+    threshold: 8,
+    zoom: { maxRatio: 4, toggle: true },
+    keyboard: { enabled: false },
+    a11y: { enabled: true, slideRole: 'group' },
+    on: { slideChange: function () { paintViewer(this.activeIndex); } }
+  });
+
+  function openViewer(i) {
+    lastFocus = document.activeElement;
+    loadRule(i);
+    viewer.classList.add('open');
+    document.getElementById('vclose').focus();
+    rules.update();
+    rules.slideTo(i, 0);
+    paintViewer(i);
+    deck.allowTouchMove = false;
+    if (history.pushState) { history.pushState({ rule: true }, ''); pushed = true; }
+  }
+
+  function closeViewer(fromPop) {
+    if (!viewer.classList.contains('open')) return;
+    viewer.classList.remove('open');
+    if (rules.zoom) rules.zoom.out();
+    deck.allowTouchMove = true;
+    if (lastFocus) lastFocus.focus();
+    if (pushed && !fromPop && history.state && history.state.rule) history.back();
+    pushed = false;
+  }
+
+  document.getElementById('vclose').addEventListener('click', function () { closeViewer(false); });
+  vprev.addEventListener('click', function () { rules.slidePrev(); });
+  vnext.addEventListener('click', function () { rules.slideNext(); });
+  window.addEventListener('popstate', function () { closeViewer(true); });
+
+  window.addEventListener('keydown', function (e) {
+    if (!viewer.classList.contains('open')) return;
+    if (e.key === 'Escape') { e.preventDefault(); closeViewer(false); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); rules.slideNext(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); rules.slidePrev(); }
+  });
+
+  viewer.addEventListener('click', function (e) {
+    if (e.target.classList.contains('swiper-slide') || e.target.classList.contains('swiper-zoom-container')) {
+      closeViewer(false);
+    }
+  });
+})();
+</script>
+</body>
+</html>
