@@ -4,15 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>2026 토목체전 · 참가자 안내</title>
-<meta name="description" content="2026 KSCE 토목체전 안내 — 2026년 9월 12일(토) 서울대학교 종합운동장. 부스 배치도에서 부스를 누르면 게임 룰이 나옵니다.">
+<meta name="description" content="2026 KSCE 토목체전 안내 — 2026년 9월 12일(토) 서울대학교 종합운동장. 부스 배치도에서 부스를 누르면 게임 룰과 부스 소개가 나옵니다.">
 <meta name="theme-color" content="#132455" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0b1020" media="(prefers-color-scheme: dark)">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="2026 토목체전 · 참가자 안내">
-<meta property="og:description" content="2026. 09. 12 (토) 서울대학교 종합운동장 — 부스를 누르면 게임 룰이 나와요.">
+<meta property="og:description" content="2026. 09. 12 (토) 서울대학교 종합운동장 — 부스를 누르면 안내가 나와요.">
 <meta property="og:locale" content="ko_KR">
-<!-- 배포 후 주석을 풀면 카카오톡 공유 시 썸네일이 뜹니다.
+<!-- 배포 후 아래 두 줄의 주석을 풀면 카카오톡 공유 시 썸네일이 뜹니다.
 <meta property="og:url" content="https://sspos001467-cyber.github.io/tomok/">
 <meta property="og:image" content="https://sspos001467-cyber.github.io/tomok/images/panel-1.jpg">
 -->
@@ -22,17 +22,18 @@
   2026 KSCE 토목체전 참가자 안내
   주관: 대한토목학회 대학생위원회 대외협력본부
 
-  화면 구성 (3면)
-    1  부스 배치도   images/panel-1.jpg   ← 부스1~6을 누르면 룰 카드가 열림
-    2  타임테이블     images/panel-2.jpg
-    3  경품          images/panel-3.jpg
+  ▣ 이 파일에서 고칠 곳은 맨 아래 스크립트의 세 배열뿐입니다.
 
-  이미지를 바꾸려면 images/ 안의 파일을 같은 이름으로 덮어쓰면 됩니다.
-  면을 추가하거나 순서를 바꾸려면 아래 <section class="swiper-slide"> 블록을
-  복사·이동하고, 하단 .rail 의 버튼 개수도 같이 맞춰 주세요.
+      PANELS   넘겨보는 면들 (배치도 / 타임테이블 / 경품 / 추가안내 / …)
+      GAMES    배치도 왼쪽 게임 부스 6개
+      BOOTHS   배치도 오른쪽·위쪽 부스들 (한 부스에 여러 장 가능)
 
-  부스 ↔ 게임 연결과 터치 영역 위치는 맨 아래 BOOTHS 배열에 있습니다.
-  배치도 디자인이 바뀌면 그 배열의 top/bottom 숫자만 고치면 됩니다.
+  ▣ 이미지가 없어도 괜찮습니다.
+      파일이 없는 면은 자동으로 빠지고, 파일이 없는 부스는 원에 표시가
+      뜨지 않고 눌리지도 않습니다. 나중에 images/ 에 올리기만 하면
+      자동으로 켜집니다. 코드는 손댈 필요 없습니다.
+
+  ▣ 이미지를 바꾸려면 images/ 안의 파일을 같은 이름으로 덮어쓰면 됩니다.
 
   소스: MIT License / Swiper 11: MIT / 이미지 저작권: 대한토목학회 대학생위원회
   ===========================================================================
@@ -101,12 +102,14 @@ body::before{
 .deck > .swiper-wrapper > .swiper-slide::-webkit-scrollbar{width:6px;}
 .deck > .swiper-wrapper > .swiper-slide::-webkit-scrollbar-thumb{background:var(--line); border-radius:99px;}
 
+/* overflow 를 열어두어야 부스 링의 바깥 광선이 카드 모서리에서 잘리지 않습니다.
+   모서리 둥글리기는 이미지 자체에 겁니다. */
 .sheet{
   position:relative; flex:none; width:100%; max-width:520px;
-  border-radius:14px; overflow:hidden; background:var(--card);
+  border-radius:14px; background:var(--card);
   box-shadow:var(--shadow); line-height:0;
 }
-.sheet img{display:block; width:100%; height:auto;}
+.sheet img{display:block; width:100%; height:auto; border-radius:14px;}
 
 @media (min-width:900px){
   .deck > .swiper-wrapper > .swiper-slide{
@@ -117,28 +120,32 @@ body::before{
   .sheet img{width:auto; height:auto; max-height:calc(100dvh - 190px); max-width:92vw;}
 }
 
-/* ---------------- 배치도의 부스 터치 영역 ---------------- */
-.booth{
+/* ---------------- 배치도 위의 터치 영역 ---------------- */
+.spot{
   position:absolute; appearance:none; border:0; padding:0; margin:0;
   background:transparent; border-radius:50%; cursor:pointer;
   -webkit-tap-highlight-color:transparent;
 }
+/* 이미지가 아직 없는 부스는 아예 나타나지 않습니다 */
+.spot[hidden]{display:none !important;}
 /* 원 밖으로 살짝 넓힌 실제 터치 범위 (눈에는 안 보임) */
-.booth::before{content:""; position:absolute; inset:-4% -14%;}
+.spot::before{content:""; position:absolute; inset:-4% -14%;}
+.spot.sm::before{inset:-24% -12%;}
 /* 누를 수 있다는 표시 — 원 둘레를 감싸는 흰 링 */
-.booth::after{
+.spot::after{
   content:""; position:absolute; inset:-6%; border-radius:50%;
   box-shadow:0 0 0 3px rgba(255,255,255,.85), 0 0 16px 2px rgba(255,255,255,.45);
 }
+.spot.sm::after{inset:-8%; box-shadow:0 0 0 2px rgba(255,255,255,.9), 0 0 12px 2px rgba(255,255,255,.5);}
 @media (prefers-reduced-motion: no-preference){
-  .booth::after{animation:ringPulse 2.8s ease-in-out infinite;}
+  .spot::after{animation:ringPulse 2.8s ease-in-out infinite;}
   @keyframes ringPulse{0%,66%,100%{opacity:.3} 82%{opacity:1}}
 }
-@media (prefers-reduced-motion: reduce){ .booth::after{opacity:.55;} }
-.booth:hover::after,
-.booth:active::after{animation:none; opacity:1;}
-.booth:active{transform:scale(.94);}
-.booth:focus-visible{outline:3px solid #fff; outline-offset:4px;}
+@media (prefers-reduced-motion: reduce){ .spot::after{opacity:.55;} }
+.spot:hover::after,
+.spot:active::after{animation:none; opacity:1;}
+.spot:active{transform:scale(.94);}
+.spot:focus-visible{outline:3px solid #fff; outline-offset:4px;}
 
 /* ---------------- chrome ---------------- */
 .topbar{
@@ -183,13 +190,13 @@ body::before{
   display:flex; flex-direction:column; align-items:center; gap:6px;
 }
 .lane .bar{width:100%; height:4px; border-radius:99px; background:var(--line); transition:background .28s, transform .28s;}
-.lane .lbl{font-size:11.5px; font-weight:700; color:var(--ink-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; transition:color .28s;}
+.lane .lbl{font-size:11px; font-weight:700; color:var(--ink-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; transition:color .28s;}
 .lane[aria-current="true"] .bar{background:linear-gradient(90deg,var(--blue-deep),var(--red)); transform:scaleY(1.6);}
 .lane[aria-current="true"] .lbl{color:var(--head);}
 .lane:focus-visible{outline:2px solid var(--blue); outline-offset:2px;}
 @media (min-width:900px){
   .rail{justify-content:center; gap:10px; padding:10px 20px 13px;}
-  .lane{flex:0 1 180px;}
+  .lane{flex:0 1 160px;}
   .lane .lbl{font-size:12px;}
 }
 
@@ -205,7 +212,7 @@ body::before{
 .nav.prev{left:18px;} .nav.next{right:18px;}
 @media (min-width:900px){ .nav{display:flex;} }
 
-/* ---------------- 룰 뷰어 ---------------- */
+/* ---------------- 안내 카드 뷰어 ---------------- */
 .viewer{
   position:fixed; inset:0; z-index:60; display:none;
   background:rgba(9,12,20,.96);
@@ -230,10 +237,10 @@ body::before{
 .closebtn:focus-visible{outline:2px solid #fff; outline-offset:2px;}
 .closebtn svg{width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round;}
 
-.rules{width:100%; height:100dvh;}
-.rules .swiper-slide{display:flex; align-items:center; justify-content:center; padding:calc(env(safe-area-inset-top,0px) + 60px) 12px calc(env(safe-area-inset-bottom,0px) + 66px);}
-.rules .swiper-zoom-container{width:100%; height:100%; display:flex; align-items:center; justify-content:center;}
-.rules img{max-width:100%; max-height:100%; width:auto; height:auto; border-radius:12px; display:block;}
+.cards{width:100%; height:100dvh;}
+.cards .swiper-slide{display:flex; align-items:center; justify-content:center; padding:calc(env(safe-area-inset-top,0px) + 60px) 12px calc(env(safe-area-inset-bottom,0px) + 66px);}
+.cards .swiper-zoom-container{width:100%; height:100%; display:flex; align-items:center; justify-content:center;}
+.cards img{max-width:100%; max-height:100%; width:auto; height:auto; border-radius:12px; display:block;}
 
 .viewer-bottom{
   position:absolute; left:0; right:0; bottom:0; z-index:2;
@@ -241,6 +248,7 @@ body::before{
   display:flex; align-items:center; justify-content:center; gap:9px;
   background:linear-gradient(0deg, rgba(9,12,20,.92) 40%, transparent);
 }
+.viewer-bottom:empty{display:none;}
 .dot{
   appearance:none; border:0; padding:0; cursor:pointer;
   width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.3);
@@ -258,16 +266,24 @@ body::before{
 .vnav svg{width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;}
 .vnav:hover{background:rgba(255,255,255,.2);}
 .vnav.is-off{opacity:.25; pointer-events:none;}
+.vnav.hide{display:none !important;}
 .vnav.prev{left:16px;} .vnav.next{right:16px;}
 @media (min-width:900px){ .vnav{display:flex;} }
 
-.zoomhint{
+/* 여러 장짜리 부스는 손으로 넘기라고 알려줍니다 */
+.swipehint{
   position:absolute; left:50%; bottom:calc(env(safe-area-inset-bottom,0px) + 52px);
   transform:translateX(-50%); z-index:2;
-  font-size:11.5px; font-weight:600; color:rgba(255,255,255,.5);
+  display:flex; align-items:center; gap:6px;
+  font-size:11.5px; font-weight:600; color:rgba(255,255,255,.55);
   white-space:nowrap; pointer-events:none;
 }
-@media (min-width:900px){ .zoomhint{display:none;} }
+.swipehint[hidden]{display:none !important;}
+.swipehint svg{width:13px; height:13px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;}
+@media (prefers-reduced-motion: no-preference){
+  .swipehint svg{animation:nudge 1.8s ease-in-out infinite;}
+  @keyframes nudge{0%,100%{transform:translateX(-2px)}50%{transform:translateX(3px)}}
+}
 </style>
 </head>
 <body>
@@ -275,7 +291,7 @@ body::before{
 <header class="topbar">
   <div class="mark"><b>2026</b><span>토목체전</span></div>
   <div class="bar-right">
-    <div class="counter"><em id="cur">1</em> / 3</div>
+    <div class="counter"><em id="cur">1</em> / <span id="total">–</span></div>
     <button class="iconbtn" id="theme" type="button" aria-label="밝은 화면 / 어두운 화면 전환">
       <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-13a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1Zm0 14a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1ZM4 11h1a1 1 0 1 1 0 2H4a1 1 0 1 1 0-2Zm15 0h1a1 1 0 1 1 0 2h-1a1 1 0 1 1 0-2ZM6.3 5a1 1 0 0 1 1.4 1.4A1 1 0 0 1 6.3 5Zm11 11a1 1 0 0 1 1.4 1.4A1 1 0 0 1 17.3 16ZM18.7 5a1 1 0 0 1 0 1.4A1 1 0 0 1 17.3 5 1 1 0 0 1 18.7 5ZM6.3 17.4a1 1 0 0 1 1.4-1.4 1 1 0 0 1-1.4 1.4Z"/></svg>
       <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.7 14.5A8.5 8.5 0 0 1 9.5 3.3a1 1 0 0 0-1.3-1.2A10.5 10.5 0 1 0 21.9 15.8a1 1 0 0 0-1.2-1.3Z"/></svg>
@@ -283,60 +299,33 @@ body::before{
   </div>
 </header>
 
+<!-- 면(슬라이드)은 아래 PANELS 배열대로 스크립트가 만듭니다 -->
 <div class="deck swiper" id="deck">
-  <div class="swiper-wrapper">
-
-    <!-- 1면 · 부스 배치도 (부스1~6을 누르면 룰이 열립니다) -->
-    <section class="swiper-slide" aria-label="부스 배치도">
-      <div class="sheet" id="mapsheet">
-        <img src="images/panel-1.jpg" width="1080" height="1920"
-             alt="2026 토목체전 운동장 부스 배치도. 왼쪽에 부스 1번부터 6번, 오른쪽에 협찬과 학생회 부스">
-        <!-- 터치 영역은 스크립트가 BOOTHS 배열대로 여기에 만듭니다 -->
-      </div>
-    </section>
-
-    <!-- 2면 · 타임테이블 -->
-    <section class="swiper-slide" aria-label="타임테이블">
-      <div class="sheet">
-        <img src="images/panel-2.jpg" alt="토목체전 타임테이블. 11시 부스 운영부터 18시 뒤풀이 이동까지"
-             loading="lazy" decoding="async">
-      </div>
-    </section>
-
-    <!-- 3면 · 경품 -->
-    <section class="swiper-slide" aria-label="경품 안내">
-      <div class="sheet">
-        <img src="images/panel-4.jpg" alt="추첨권을 노려라. 스탬프를 모아 특별 키트 받기, 부스 참여로 추첨권 얻기"
-             loading="lazy" decoding="async">
-      </div>
-    </section>
-
-  </div>
+  <div class="swiper-wrapper" id="deckwrap"></div>
 </div>
 
 <button class="nav prev" id="prev" type="button" aria-label="이전 면"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
 <button class="nav next" id="next" type="button" aria-label="다음 면"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
 
-<nav class="rail" aria-label="면 이동">
-  <button class="lane" type="button"><span class="bar"></span><span class="lbl">부스 배치도</span></button>
-  <button class="lane" type="button"><span class="bar"></span><span class="lbl">타임테이블</span></button>
-  <button class="lane" type="button"><span class="bar"></span><span class="lbl">경품</span></button>
-</nav>
+<nav class="rail" id="rail" aria-label="면 이동"></nav>
 
-<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="게임 룰">
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="부스 안내">
   <div class="viewer-top">
     <div class="viewer-title" id="vtitle"></div>
     <button class="closebtn" id="vclose" type="button" aria-label="닫기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
   </div>
 
-  <div class="rules swiper" id="rules">
-    <div class="swiper-wrapper" id="rulewrap"></div>
+  <div class="cards swiper" id="cards">
+    <div class="swiper-wrapper"></div>
   </div>
 
-  <button class="vnav prev" id="vprev" type="button" aria-label="이전 부스"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
-  <button class="vnav next" id="vnext" type="button" aria-label="다음 부스"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+  <button class="vnav prev" id="vprev" type="button" aria-label="이전"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+  <button class="vnav next" id="vnext" type="button" aria-label="다음"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
 
-  <p class="zoomhint">두 번 톡 치면 확대돼요</p>
+  <p class="swipehint" id="swipehint" hidden>
+    옆으로 넘겨보세요
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+  </p>
   <div class="viewer-bottom" id="vdots"></div>
 </div>
 
@@ -346,25 +335,95 @@ body::before{
   'use strict';
 
   /* =====================================================================
-     부스 ↔ 게임 연결
+     ①  넘겨보는 면들
 
-     top / bottom 은 배치도 이미지 높이에 대한 % 로, 각 부스 원의 위아래
-     위치입니다. 배치도를 새로 만들어 원 위치가 달라지면 이 숫자만 고치면
-     됩니다. left / right 는 왼쪽 부스 원의 가로 위치(%)입니다.
-
-     오른쪽 협찬·학생회 원을 나중에 누르게 하려면 left:87.8, right:98.7 로
-     같은 y 값을 쓰면 됩니다.
+     위에서부터 차례대로 나옵니다. 파일이 없는 면은 자동으로 빠집니다.
+     면을 추가하려면 줄을 하나 더 넣고, 빼려면 줄을 지우면 됩니다.
+     (label 은 화면 아래 탭에 쓰이는 이름입니다)
      ===================================================================== */
-  var BOOTH_LEFT = 1.1, BOOTH_RIGHT = 12.0;
+  var PANELS = [
+    { img: 'images/panel-1.jpg', label: '부스 배치도', map: true,
+      alt: '2026 토목체전 운동장 부스 배치도' },
+    { img: 'images/panel-2.jpg', label: '타임테이블',
+      alt: '토목체전 타임테이블. 11시 부스 운영부터 18시 뒤풀이까지' },
+    { img: 'images/panel-3.jpg', label: '경품',
+      alt: '추첨권을 노려라. 스탬프를 모아 특별 키트 받기' },
+    { img: 'images/panel-4.jpg', label: '추가 안내',
+      alt: '추가 안내사항. 쓰레기통, 흡연장 위치 안내' },
+    { img: 'images/panel-5.jpg', label: '안내 5',
+      alt: '추가 안내 자료' }
+  ];
+
+  /* =====================================================================
+     ②  배치도 왼쪽 — 게임 부스 6개
+
+     left/right/top/bottom 은 배치도 이미지에 대한 % 위치입니다.
+     (가로는 이미지 너비, 세로는 이미지 높이 기준)
+     배치도를 새로 만들어 원 위치가 달라지면 이 숫자만 고치면 됩니다.
+
+     게임끼리는 서로 좌우로 넘겨볼 수 있습니다.
+     ===================================================================== */
+  var COL_L = { left: 1.1, right: 12.0 };
+
+  var GAMES = [
+    { no: 1, name: '구루마 컬링',       img: 'images/rule-1.jpg', top: 48.2, bottom: 54.4 },
+    { no: 2, name: '구속 측정소',       img: 'images/rule-3.jpg', top: 54.4, bottom: 60.6 },
+    { no: 3, name: '탄성한계 측정실험', img: 'images/rule-4.jpg', top: 60.6, bottom: 66.8 },
+    { no: 4, name: '홀인원 토공사',     img: 'images/rule-5.jpg', top: 68.5, bottom: 74.6 },
+    { no: 5, name: '토목철인 3종',      img: 'images/rule-2.jpg', top: 74.7, bottom: 80.8 },
+    { no: 6, name: '인간 항타기',       img: 'images/rule-6.jpg', top: 80.9, bottom: 87.0 }
+  ];
+
+  /* =====================================================================
+     ③  배치도 오른쪽 세로줄 + 위쪽 가로줄 — 부스 소개
+
+     imgs 에 여러 장을 넣으면 그 부스 안에서만 좌우로 넘어갑니다.
+     (다른 부스로는 넘어가지 않습니다 — 서로 다른 부스니까요)
+     장수를 늘리려면 imgs 에 파일명을 추가하면 됩니다.
+     ===================================================================== */
+  var COL_R = { left: 87.8, right: 98.7 };
 
   var BOOTHS = [
-    { no: 1, name: '구루마 컬링',        img: 'images/rule-1.jpg', top: 48.2, bottom: 54.4 },
-    { no: 2, name: '구속 측정소',        img: 'images/rule-3.jpg', top: 54.4, bottom: 60.6 },
-    { no: 3, name: '탄성한계 측정실험',  img: 'images/rule-4.jpg', top: 60.6, bottom: 66.8 },
-    { no: 4, name: '홀인원 토공사',      img: 'images/rule-5.jpg', top: 68.5, bottom: 74.6 },
-    { no: 5, name: '토목철인 3종',       img: 'images/rule-2.jpg', top: 74.7, bottom: 80.8 },
-    { no: 6, name: '인간 항타기',        img: 'images/rule-6.jpg', top: 80.9, bottom: 87.0 }
+    /* 오른쪽 세로줄 (위 → 아래) */
+    { name: '협찬 2', left: COL_R.left, right: COL_R.right, top: 48.2, bottom: 54.4,
+      imgs: ['images/card-sponsor-2.jpg'] },
+    { name: '협찬 1', left: COL_R.left, right: COL_R.right, top: 54.4, bottom: 60.6,
+      imgs: ['images/card-sponsor-1.jpg'] },
+    { name: '배팅 부스', left: COL_R.left, right: COL_R.right, top: 60.6, bottom: 66.8,
+      imgs: ['images/card-betting-1.jpg', 'images/card-betting-2.jpg'] },
+    { name: '이음 기자단', left: COL_R.left, right: COL_R.right, top: 68.5, bottom: 74.6,
+      imgs: ['images/card-ieum-1.jpg', 'images/card-ieum-2.jpg',
+             'images/card-ieum-3.jpg', 'images/card-ieum-4.jpg'] },
+    { name: '코나시', left: COL_R.left, right: COL_R.right, top: 74.7, bottom: 80.8,
+      imgs: ['images/card-konasi-1.jpg', 'images/card-konasi-2.jpg', 'images/card-konasi-3.jpg'] },
+    { name: '서울대', left: COL_R.left, right: COL_R.right, top: 80.9, bottom: 87.0,
+      imgs: ['images/card-snu-1.jpg', 'images/card-snu-2.jpg', 'images/card-snu-3.jpg'] },
+
+    /* 위쪽 가로줄 — 원이 작아서 sm 표시 */
+    { name: '찬조공연', left: 54.4, right: 62.5, top: 48.3, bottom: 53.0, sm: true,
+      imgs: ['images/card-show.jpg'] },
+    { name: '운영본부', left: 62.7, right: 69.9, top: 48.3, bottom: 53.0, sm: true,
+      imgs: ['images/card-hq.jpg'] },
+    { name: '물 부스', left: 77.8, right: 85.4, top: 48.3, bottom: 53.0, sm: true,
+      imgs: ['images/card-water.jpg'] }
+
+    /* 내빈석도 넣고 싶으면 아래 줄의 주석을 풀고 이미지를 올리면 됩니다.
+    ,{ name: '내빈석', left: 70.1, right: 77.6, top: 48.3, bottom: 53.0, sm: true,
+       imgs: ['images/card-guest.jpg'] }
+    */
   ];
+
+  /* ===================== 여기부터는 건드릴 일이 없습니다 ===================== */
+
+  function exists(src) {
+    return new Promise(function (res) {
+      var im = new Image();
+      im.onload = function () { res(true); };
+      im.onerror = function () { res(false); };
+      im.src = src;
+    });
+  }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
 
   /* ---------- 밝은/어두운 화면 ---------- */
   var THEME_KEY = 'tomok2026-theme';
@@ -381,55 +440,62 @@ body::before{
     try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
   });
 
-  /* ---------- 배치도 위의 부스 버튼 ---------- */
-  var mapsheet = document.getElementById('mapsheet');
-  BOOTHS.forEach(function (b, i) {
-    var el = document.createElement('button');
-    el.type = 'button';
-    el.className = 'booth';
-    el.style.left = BOOTH_LEFT + '%';
-    el.style.width = (BOOTH_RIGHT - BOOTH_LEFT) + '%';
-    el.style.top = b.top + '%';
-    el.style.height = (b.bottom - b.top) + '%';
-    el.setAttribute('aria-label', '부스 ' + b.no + ' ' + b.name + ' 룰 보기');
-    el.addEventListener('click', function () { openViewer(i); });
-    mapsheet.appendChild(el);
-  });
-
-  /* ---------- 룰 카드 ---------- */
-  var wrap = document.getElementById('rulewrap');
-  var dotwrap = document.getElementById('vdots');
-  BOOTHS.forEach(function (b, i) {
-    var s = document.createElement('div');
-    s.className = 'swiper-slide';
-    s.innerHTML =
-      '<div class="swiper-zoom-container">' +
-      '<img data-src="' + b.img + '" alt="부스 ' + b.no + ' ' + b.name + ' 게임 룰 안내" decoding="async">' +
-      '</div>';
-    wrap.appendChild(s);
-
-    var d = document.createElement('button');
-    d.type = 'button';
-    d.className = 'dot';
-    d.setAttribute('aria-label', '부스 ' + b.no + ' ' + b.name);
-    d.addEventListener('click', function () { rules.slideTo(i); });
-    dotwrap.appendChild(d);
-  });
-  var dots = [].slice.call(dotwrap.children);
-
-  function loadRule(i) {
-    for (var n = i - 1; n <= i + 1; n++) {
-      if (n < 0 || n >= BOOTHS.length) continue;
-      var img = wrap.children[n].querySelector('img');
-      if (img && !img.src) img.src = img.dataset.src;
-    }
-  }
-
-  /* ---------- 면 넘기기 ---------- */
-  var lanes = [].slice.call(document.querySelectorAll('.lane'));
+  var deckwrap = document.getElementById('deckwrap');
+  var rail = document.getElementById('rail');
   var cur = document.getElementById('cur');
+  var total = document.getElementById('total');
   var prev = document.getElementById('prev');
   var next = document.getElementById('next');
+  var deck, lanes = [];
+
+  /* ---------- 면 만들기 ---------- */
+  Promise.all(PANELS.map(function (p) { return exists(p.img); })).then(function (ok) {
+    var panels = PANELS.filter(function (p, i) { return ok[i]; });
+    if (!panels.length) return;
+
+    deckwrap.innerHTML = panels.map(function (p) {
+      return '<section class="swiper-slide" aria-label="' + esc(p.label) + '">' +
+             '<div class="sheet"' + (p.map ? ' id="mapsheet"' : '') + '>' +
+             '<img src="' + esc(p.img) + '" alt="' + esc(p.alt || p.label) + '" decoding="async">' +
+             '</div></section>';
+    }).join('');
+
+    rail.innerHTML = panels.map(function (p) {
+      return '<button class="lane" type="button">' +
+             '<span class="bar"></span><span class="lbl">' + esc(p.label) + '</span></button>';
+    }).join('');
+    lanes = [].slice.call(rail.children);
+    total.textContent = panels.length;
+
+    var start = 0;
+    var m = /^#p([1-9])$/.exec(location.hash);
+    if (m && +m[1] <= panels.length) start = +m[1] - 1;
+
+    deck = new Swiper('#deck', {
+      initialSlide: start,
+      speed: 440,
+      threshold: 10,
+      touchAngle: 32,
+      touchReleaseOnEdges: true,
+      resistanceRatio: 0.55,
+      keyboard: { enabled: true, onlyInViewport: false },
+      a11y: { enabled: true, containerMessage: '토목체전 안내', slideRole: 'group' },
+      on: {
+        init: function () { paintDeck(this.activeIndex); },
+        slideChange: function () { paintDeck(this.activeIndex); }
+      }
+    });
+    deck.on('slideChangeTransitionEnd', function () {
+      var el = deck.slides[deck.previousIndex];
+      if (el) el.scrollTop = 0;
+    });
+
+    lanes.forEach(function (l, i) { l.addEventListener('click', function () { deck.slideTo(i); }); });
+    prev.addEventListener('click', function () { deck.slidePrev(); });
+    next.addEventListener('click', function () { deck.slideNext(); });
+
+    if (document.getElementById('mapsheet')) buildSpots();
+  });
 
   function paintDeck(i) {
     cur.textContent = i + 1;
@@ -438,51 +504,66 @@ body::before{
     next.classList.toggle('is-off', i === lanes.length - 1);
   }
 
-  var start = 0;
-  var m = /^#p([1-9])$/.exec(location.hash);
-  if (m && +m[1] <= lanes.length) start = +m[1] - 1;
+  /* ---------- 배치도 위의 터치 영역 ---------- */
+  function buildSpots() {
+    var mapsheet = document.getElementById('mapsheet');
 
-  var deck = new Swiper('#deck', {
-    initialSlide: start,
-    speed: 440,
-    threshold: 10,
-    touchAngle: 32,
-    touchReleaseOnEdges: true,
-    resistanceRatio: 0.55,
-    keyboard: { enabled: true, onlyInViewport: false },
-    a11y: { enabled: true, containerMessage: '토목체전 안내 3면', slideRole: 'group' },
-    on: {
-      init: function () { paintDeck(this.activeIndex); },
-      slideChange: function () { paintDeck(this.activeIndex); }
+    function place(item, onOpen) {
+      var el = document.createElement('button');
+      el.type = 'button';
+      el.className = 'spot' + (item.sm ? ' sm' : '');
+      el.style.left = item.left + '%';
+      el.style.width = (item.right - item.left) + '%';
+      el.style.top = item.top + '%';
+      el.style.height = (item.bottom - item.top) + '%';
+      el.setAttribute('aria-label', item.name + ' 안내 보기');
+      el.hidden = true;
+      el.addEventListener('click', onOpen);
+      mapsheet.appendChild(el);
+      return el;
     }
-  });
-  deck.on('slideChangeTransitionEnd', function () {
-    var el = deck.slides[deck.previousIndex];
-    if (el) el.scrollTop = 0;
-  });
 
-  lanes.forEach(function (l, i) { l.addEventListener('click', function () { deck.slideTo(i); }); });
-  prev.addEventListener('click', function () { deck.slidePrev(); });
-  next.addEventListener('click', function () { deck.slideNext(); });
+    /* 게임 부스 — 이미지가 있는 것만 켜고, 게임끼리 좌우로 넘어갑니다 */
+    GAMES.forEach(function (g) {
+      g.el = place(g, function () {
+        var ready = GAMES.filter(function (x) { return x.ready; });
+        openViewer(ready.map(function (x) {
+          return { name: x.name, sub: '부스 ' + x.no + ' · 게임 룰', img: x.img };
+        }), ready.indexOf(g));
+      });
+      exists(g.img).then(function (ok) { g.ready = ok; if (ok) g.el.hidden = false; });
+    });
 
-  /* ---------- 룰 뷰어 ---------- */
+    /* 그 밖의 부스 — 그 부스가 가진 장수만큼만 넘어갑니다 */
+    BOOTHS.forEach(function (b) {
+      b.el = place(b, function () {
+        openViewer(b.list.map(function (src, n) {
+          return {
+            name: b.name,
+            sub: b.list.length > 1 ? (n + 1) + ' / ' + b.list.length : '부스 안내',
+            img: src
+          };
+        }), 0);
+      });
+      Promise.all(b.imgs.map(exists)).then(function (ok) {
+        b.list = b.imgs.filter(function (src, i) { return ok[i]; });
+        if (b.list.length) b.el.hidden = false;
+      });
+    });
+  }
+
+  /* ---------- 안내 카드 뷰어 ---------- */
   var viewer = document.getElementById('viewer');
   var vtitle = document.getElementById('vtitle');
   var vprev = document.getElementById('vprev');
   var vnext = document.getElementById('vnext');
+  var dotwrap = document.getElementById('vdots');
+  var swipehint = document.getElementById('swipehint');
+  var list = [];
   var lastFocus = null;
   var pushed = false;
 
-  function paintViewer(i) {
-    var b = BOOTHS[i];
-    vtitle.innerHTML = b.name + '<small>부스 ' + b.no + ' · 게임 룰</small>';
-    dots.forEach(function (d, n) { d.setAttribute('aria-current', n === i ? 'true' : 'false'); });
-    vprev.classList.toggle('is-off', i === 0);
-    vnext.classList.toggle('is-off', i === BOOTHS.length - 1);
-    loadRule(i);
-  }
-
-  var rules = new Swiper('#rules', {
+  var cards = new Swiper('#cards', {
     speed: 380,
     threshold: 8,
     zoom: { maxRatio: 4, toggle: true },
@@ -491,38 +572,73 @@ body::before{
     on: { slideChange: function () { paintViewer(this.activeIndex); } }
   });
 
-  function openViewer(i) {
+  function paintViewer(i) {
+    var it = list[i];
+    if (!it) return;
+    vtitle.innerHTML = esc(it.name) + (it.sub ? '<small>' + esc(it.sub) + '</small>' : '');
+    [].slice.call(dotwrap.children).forEach(function (d, n) {
+      d.setAttribute('aria-current', n === i ? 'true' : 'false');
+    });
+    vprev.classList.toggle('is-off', i === 0);
+    vnext.classList.toggle('is-off', i === list.length - 1);
+    swipehint.hidden = !(list.length > 1 && i === 0);
+  }
+
+  function openViewer(items, index) {
+    if (!items.length || index < 0) return;
+    list = items;
+
+    cards.removeAllSlides();
+    cards.appendSlide(items.map(function (it) {
+      return '<div class="swiper-slide"><div class="swiper-zoom-container">' +
+             '<img src="' + esc(it.img) + '" alt="' + esc(it.name) + ' 안내" decoding="async">' +
+             '</div></div>';
+    }));
+
+    dotwrap.innerHTML = '';
+    if (items.length > 1) {
+      items.forEach(function (it, n) {
+        var d = document.createElement('button');
+        d.type = 'button';
+        d.className = 'dot';
+        d.setAttribute('aria-label', it.name + ' ' + (n + 1));
+        d.addEventListener('click', function () { cards.slideTo(n); });
+        dotwrap.appendChild(d);
+      });
+    }
+    vprev.classList.toggle('hide', items.length < 2);
+    vnext.classList.toggle('hide', items.length < 2);
+
     lastFocus = document.activeElement;
-    loadRule(i);
     viewer.classList.add('open');
     document.getElementById('vclose').focus();
-    rules.update();
-    rules.slideTo(i, 0);
-    paintViewer(i);
-    deck.allowTouchMove = false;
-    if (history.pushState) { history.pushState({ rule: true }, ''); pushed = true; }
+    cards.update();
+    cards.slideTo(index, 0);
+    paintViewer(index);
+    if (deck) deck.allowTouchMove = false;
+    if (history.pushState) { history.pushState({ card: true }, ''); pushed = true; }
   }
 
   function closeViewer(fromPop) {
     if (!viewer.classList.contains('open')) return;
     viewer.classList.remove('open');
-    if (rules.zoom) rules.zoom.out();
-    deck.allowTouchMove = true;
+    if (cards.zoom) cards.zoom.out();
+    if (deck) deck.allowTouchMove = true;
     if (lastFocus) lastFocus.focus();
-    if (pushed && !fromPop && history.state && history.state.rule) history.back();
+    if (pushed && !fromPop && history.state && history.state.card) history.back();
     pushed = false;
   }
 
   document.getElementById('vclose').addEventListener('click', function () { closeViewer(false); });
-  vprev.addEventListener('click', function () { rules.slidePrev(); });
-  vnext.addEventListener('click', function () { rules.slideNext(); });
+  vprev.addEventListener('click', function () { cards.slidePrev(); });
+  vnext.addEventListener('click', function () { cards.slideNext(); });
   window.addEventListener('popstate', function () { closeViewer(true); });
 
   window.addEventListener('keydown', function (e) {
     if (!viewer.classList.contains('open')) return;
     if (e.key === 'Escape') { e.preventDefault(); closeViewer(false); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); rules.slideNext(); }
-    if (e.key === 'ArrowLeft') { e.preventDefault(); rules.slidePrev(); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); cards.slideNext(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); cards.slidePrev(); }
   });
 
   viewer.addEventListener('click', function (e) {
